@@ -1,862 +1,692 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>팀 소개 | Our Team</title>
-  <meta name="description" content="우리 팀을 소개합니다. 팀원별 담당 업무와 업무 매뉴얼을 확인하세요." />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>팀 노트 · 누가 무엇을 맡는가에 관한 기록</title>
+<meta name="description" content="여섯 사람이 하나의 제품을 만드는 팀의 담당 업무와 일하는 방식을 편집물처럼 기록한 페이지.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%23f3efe6'/><rect x='9' y='9' width='14' height='14' rx='2' fill='%231f3a5f'/></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Geist:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="scrollcraft.css">
+<style>
+  :root {
+    --sc-canvas:      #f3efe6;
+    --sc-surface:     #ebe5d8;
+    --sc-ink:         #1c1a16;
+    --sc-ink-soft:    #6b6454;
+    --sc-accent:      #1f3a5f;
+    --sc-accent-ink:  #f3efe6;
+    --sc-font-display: "Fraunces", Georgia, "Apple SD Gothic Neo", serif;
+    --sc-font-text:    "Geist", system-ui, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+    --paper-line: color-mix(in oklab, var(--sc-ink) 14%, transparent);
+    --paper-line-soft: color-mix(in oklab, var(--sc-ink) 8%, transparent);
+  }
 
-  <link rel="preconnect" href="https://rsms.me/" />
-  <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
+  body { background: var(--sc-canvas); }
+  .sc-grain { opacity: 0.03; mix-blend-mode: multiply; }
 
-  <style>
-    :root {
-      --bg: #ffffff;
-      --bg-soft: #fafafa;       /* zinc-50 */
-      --bg-well: #f4f4f5;       /* zinc-100 */
-      --ink: #18181b;           /* zinc-900 */
-      --ink-2: #3f3f46;         /* zinc-700 */
-      --muted: #71717a;         /* zinc-500 */
-      --line: rgba(0, 0, 0, 0.08);
-      --line-strong: rgba(0, 0, 0, 0.12);
-      --accent: #0f766e;        /* teal-700 */
-      --accent-ink: #115e59;    /* teal-800 */
-      --accent-soft: #f0fdfa;   /* teal-50 */
-      --accent-ring: rgba(15, 118, 110, 0.18);
-      --radius: 14px;
-      --container: 1180px;
-    }
+  .folio {
+    position: fixed; z-index: var(--sc-z-chrome);
+    top: clamp(1.1rem, 3vh, 2.2rem); left: var(--sc-gutter);
+    display: flex; align-items: baseline; gap: var(--sc-3);
+    font-family: var(--sc-font-text);
+    font-size: var(--sc-t-xs); letter-spacing: var(--sc-track-wide);
+    text-transform: uppercase; color: var(--sc-ink-soft);
+    pointer-events: none;
+    mix-blend-mode: multiply;
+  }
+  .folio b { font-weight: 600; color: var(--sc-ink); font-variant-numeric: tabular-nums; }
+  .folio .folio__t { max-width: 46vw; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+  @media (max-width: 680px) { .folio .folio__t { display: none; } }
 
-    * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
+  .page { max-width: var(--sc-maxw); margin-inline: auto; padding-inline: var(--sc-gutter); }
+  .measure { max-width: 60ch; }
 
-    body {
-      margin: 0;
-      font-family: "Inter", system-ui, -apple-system, "Segoe UI", "Apple SD Gothic Neo",
-        "Malgun Gothic", sans-serif;
-      font-feature-settings: "cv11", "ss01";
-      color: var(--ink);
-      background: var(--bg);
-      -webkit-font-smoothing: antialiased;
-      line-height: 1.6;
-    }
-    @supports (font-variation-settings: normal) {
-      body { font-family: "Inter var", system-ui, -apple-system, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif; }
-    }
+  .titlepage {
+    min-height: 100svh;
+    display: grid; align-content: center;
+    padding-block: clamp(6rem, 18vh, 12rem) var(--sc-9);
+    border-bottom: 1px solid var(--paper-line);
+  }
+  .titlepage__kick {
+    font-family: var(--sc-font-text);
+    font-size: var(--sc-t-sm); letter-spacing: var(--sc-track-wide);
+    text-transform: uppercase; color: var(--sc-ink-soft);
+    margin: 0 0 var(--sc-6);
+  }
+  .titlepage h1 {
+    font-size: clamp(2.9rem, 1.6rem + 6vw, 7rem);
+    line-height: 0.98; letter-spacing: var(--sc-track-tight);
+    font-weight: 500; margin: 0; text-wrap: balance;
+  }
+  .titlepage h1 em { font-style: italic; font-weight: 400; }
+  .titlepage__sub {
+    margin: var(--sc-7) 0 0; max-width: 42ch;
+    font-size: var(--sc-t-lg); line-height: 1.42; color: var(--sc-ink-soft);
+    font-family: var(--sc-font-text); text-wrap: pretty;
+  }
+  .titlepage__meta {
+    margin-top: var(--sc-8); padding-top: var(--sc-5);
+    border-top: 1px solid var(--paper-line);
+    display: flex; flex-wrap: wrap; gap: var(--sc-3) var(--sc-7);
+    font-family: var(--sc-font-text); font-size: var(--sc-t-sm);
+    color: var(--sc-ink-soft);
+  }
+  .titlepage__meta span b { color: var(--sc-ink); font-weight: 500; }
 
-    a { color: inherit; text-decoration: none; }
-    img { max-width: 100%; display: block; }
+  .intertitle {
+    padding-block: clamp(5rem, 12vh, 9rem) var(--sc-7);
+    border-top: 1px solid var(--paper-line);
+  }
+  .intertitle__no {
+    font-family: var(--sc-font-text); font-size: var(--sc-t-sm);
+    letter-spacing: var(--sc-track-wide); text-transform: uppercase;
+    color: var(--sc-accent); margin: 0 0 var(--sc-5); font-weight: 600;
+  }
+  .intertitle h2 {
+    font-size: clamp(2.2rem, 1.3rem + 3.6vw, 4rem);
+    line-height: 1.02; letter-spacing: var(--sc-track-snug);
+    font-weight: 500; margin: 0; max-width: 20ch; text-wrap: balance;
+  }
+  .intertitle h2 em { font-style: italic; font-weight: 400; }
+  .intertitle p { margin: var(--sc-6) 0 0; }
 
-    .container {
-      width: 100%;
-      max-width: var(--container);
-      margin-inline: auto;
-      padding-inline: 24px;
-    }
+  .prose p { font-family: var(--sc-font-text); margin: 0 0 var(--sc-4); }
+  .prose p:last-child { margin-bottom: 0; }
+  .lead { font-size: var(--sc-t-lg); line-height: 1.5; color: var(--sc-ink); letter-spacing: var(--sc-track-snug); }
 
-    /* ---------- Header ---------- */
-    header.site {
-      position: sticky;
-      top: 0;
-      z-index: 50;
-      background: rgba(255, 255, 255, 0.85);
-      backdrop-filter: saturate(180%) blur(12px);
-      border-bottom: 1px solid var(--line);
-    }
-    .nav {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      height: 68px;
-    }
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-weight: 600;
-      letter-spacing: -0.01em;
-      font-size: 17px;
-    }
-    .brand .mark {
-      width: 30px;
-      height: 30px;
-      border-radius: 8px;
-      background: var(--accent);
-      display: grid;
-      place-items: center;
-      color: #fff;
-    }
-    .brand .mark svg { width: 18px; height: 18px; }
+  .chart-act [data-sc-stage] {
+    display: grid; place-items: center;
+    padding-inline: var(--sc-gutter);
+  }
+  .chart {
+    width: min(100%, 64rem);
+  }
+  .chart figcaption {
+    font-family: var(--sc-font-text); font-size: var(--sc-t-sm);
+    color: var(--sc-ink-soft); text-align: center;
+    margin-top: var(--sc-5); letter-spacing: var(--sc-track-snug);
+  }
+  .chart svg { width: 100%; height: auto; overflow: visible; }
+  .chart .edge {
+    fill: none; stroke: var(--sc-accent); stroke-width: 1.6;
+    stroke-dasharray: var(--len); stroke-dashoffset: var(--len);
+  }
+  .chart .node-ring {
+    fill: var(--sc-canvas); stroke: var(--sc-ink); stroke-width: 1.4;
+    opacity: 0; transform-box: fill-box; transform-origin: center;
+  }
+  .chart .node-hub { fill: var(--sc-accent); stroke: none; }
+  .chart .node-label {
+    font-family: var(--sc-font-text); font-weight: 500;
+    fill: var(--sc-ink); opacity: 0;
+  }
+  .chart .node-hub-label { fill: var(--sc-accent-ink); }
+  .chart .node-role {
+    font-family: var(--sc-font-text);
+    fill: var(--sc-ink-soft); opacity: 0;
+  }
 
-    nav.links {
-      display: flex;
-      align-items: center;
-      gap: 32px;
-    }
-    nav.links a {
-      font-size: 15px;
-      color: var(--ink-2);
-      transition: color 150ms ease;
-    }
-    nav.links a:hover { color: var(--accent); }
+  .entry { padding-block: clamp(3.5rem, 7vh, 6rem); border-top: 1px solid var(--paper-line-soft); }
+  .entry__grid {
+    display: grid; gap: var(--sc-6) var(--sc-8);
+    grid-template-columns: 1fr;
+  }
+  @media (min-width: 880px) {
+    .entry__grid { grid-template-columns: 16rem 1fr; align-items: start; }
+    .entry:nth-child(even) .entry__grid { grid-template-columns: 1fr 16rem; }
+    .entry:nth-child(even) .entry__figure { order: 2; }
+  }
+  .entry__figure { position: relative; }
+  .entry__plate {
+    position: relative; aspect-ratio: 4 / 5; overflow: clip;
+    border: 1px solid var(--paper-line);
+    background: var(--sc-surface);
+    display: grid; place-items: center;
+  }
+  .entry__plate svg { width: 100%; height: 100%; }
+  .entry__plate .glyph {
+    font-family: var(--sc-font-display); font-weight: 500;
+    fill: color-mix(in oklab, var(--sc-ink) 86%, transparent);
+  }
+  .entry__role {
+    font-family: var(--sc-font-text); font-size: var(--sc-t-sm);
+    letter-spacing: var(--sc-track-wide); text-transform: uppercase;
+    color: var(--sc-accent); font-weight: 600; margin: 0 0 var(--sc-3);
+  }
+  .entry__name {
+    font-size: clamp(1.9rem, 1.3rem + 2vw, 2.9rem);
+    line-height: 1.04; font-weight: 500; letter-spacing: var(--sc-track-snug);
+    margin: 0;
+  }
+  .entry__name small {
+    display: inline-block; margin-left: var(--sc-3);
+    font-family: var(--sc-font-text); font-size: var(--sc-t-sm);
+    font-weight: 400; color: var(--sc-ink-soft); letter-spacing: 0;
+    vertical-align: middle;
+  }
+  .entry__desc { margin: var(--sc-5) 0 var(--sc-6); max-width: 54ch; }
+  .entry__owns { list-style: none; margin: 0; padding: 0; max-width: 54ch; }
+  .entry__owns li {
+    display: grid; grid-template-columns: auto 1fr; gap: var(--sc-4);
+    padding: var(--sc-3) 0; border-top: 1px solid var(--paper-line-soft);
+    font-family: var(--sc-font-text); color: var(--sc-ink);
+  }
+  .entry__owns li:last-child { border-bottom: 1px solid var(--paper-line-soft); }
+  .entry__owns dfn {
+    font-style: normal; color: var(--sc-ink-soft); font-variant-numeric: tabular-nums;
+    letter-spacing: var(--sc-track-wide);
+  }
+  .entry__contact {
+    margin-top: var(--sc-5); font-family: var(--sc-font-text); font-size: var(--sc-t-sm);
+  }
+  .entry__contact a { text-decoration: underline; text-decoration-color: var(--sc-accent); }
+  .entry__contact a:hover { color: var(--sc-accent); }
 
-    .nav-cta {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: var(--accent);
-      color: #fff;
-      font-size: 14px;
-      font-weight: 500;
-      padding: 9px 16px;
-      border-radius: 9px;
-      transition: background 150ms ease;
-    }
-    .nav-cta:hover { background: var(--accent-ink); }
+  .method { padding-block: clamp(3rem, 6vh, 5rem); }
+  .method__item {
+    display: grid; gap: var(--sc-4) var(--sc-8); padding-block: var(--sc-7);
+    border-top: 1px solid var(--paper-line);
+    grid-template-columns: 1fr;
+  }
+  @media (min-width: 820px) { .method__item { grid-template-columns: 22rem 1fr; } }
+  .method__item h3 {
+    font-family: var(--sc-font-display); font-weight: 500;
+    font-size: var(--sc-t-xl); line-height: 1.08; letter-spacing: var(--sc-track-snug);
+    margin: 0;
+  }
+  .method__item > p { margin: var(--sc-3) 0 0; }
+  .steps { list-style: none; margin: 0; padding: 0; counter-reset: s; }
+  .steps li {
+    display: grid; grid-template-columns: 2.4rem 1fr; gap: var(--sc-4);
+    padding: var(--sc-4) 0; font-family: var(--sc-font-text);
+    border-bottom: 1px solid var(--paper-line-soft); counter-increment: s;
+  }
+  .steps li:first-child { border-top: 1px solid var(--paper-line-soft); }
+  .steps li::before {
+    content: counter(s, decimal-leading-zero);
+    font-variant-numeric: tabular-nums; color: var(--sc-accent);
+    font-weight: 600; letter-spacing: var(--sc-track-wide);
+  }
 
-    .menu-toggle {
-      display: none;
-      background: none;
-      border: 1px solid var(--line-strong);
-      border-radius: 9px;
-      width: 42px;
-      height: 42px;
-      cursor: pointer;
-      color: var(--ink);
-    }
+  .colophon {
+    min-height: 92svh; display: grid; align-content: center;
+    padding-block: clamp(5rem, 12vh, 9rem);
+    border-top: 1px solid var(--paper-line);
+  }
+  .colophon__line {
+    font-family: var(--sc-font-display); font-weight: 500;
+    font-size: clamp(1.7rem, 1.1rem + 2.6vw, 3.2rem);
+    line-height: 1.18; letter-spacing: var(--sc-track-snug);
+    margin: 0; max-width: 24ch; text-wrap: balance;
+  }
+  .colophon__line a {
+    color: var(--sc-accent);
+    text-decoration: underline; text-decoration-thickness: 2px;
+    text-underline-offset: 0.14em;
+    transition: color var(--sc-d-fast) var(--sc-ease-out);
+  }
+  .colophon__line a:hover { color: var(--sc-ink); }
+  .colophon__masthead {
+    margin-top: var(--sc-9); padding-top: var(--sc-5);
+    border-top: 1px solid var(--paper-line);
+    display: grid; gap: var(--sc-5) var(--sc-8);
+    grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+    font-family: var(--sc-font-text); font-size: var(--sc-t-sm); color: var(--sc-ink-soft);
+  }
+  .colophon__masthead dt {
+    letter-spacing: var(--sc-track-wide); text-transform: uppercase;
+    font-size: var(--sc-t-xs); margin-bottom: var(--sc-2);
+  }
+  .colophon__masthead dd { margin: 0; color: var(--sc-ink); }
+  .colophon__masthead a:hover { color: var(--sc-accent); }
+  .colophon__fine {
+    margin-top: var(--sc-8); font-family: var(--sc-font-text);
+    font-size: var(--sc-t-xs); letter-spacing: var(--sc-track-wide);
+    text-transform: uppercase; color: var(--sc-ink-soft);
+  }
 
-    /* ---------- Hero ---------- */
-    .hero {
-      background:
-        radial-gradient(1200px 500px at 85% -10%, var(--accent-soft), transparent 60%),
-        var(--bg);
-      border-bottom: 1px solid var(--line);
-    }
-    .hero-inner {
-      padding-block: 96px 88px;
-      max-width: 760px;
-    }
-    .eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 13px;
-      font-weight: 500;
-      color: var(--accent-ink);
-      background: var(--accent-soft);
-      border: 1px solid var(--accent-ring);
-      padding: 6px 12px;
-      border-radius: 999px;
-      margin-bottom: 22px;
-    }
-    .eyebrow .dot {
-      width: 7px; height: 7px; border-radius: 50%;
-      background: var(--accent);
-    }
-    .hero h1 {
-      font-size: clamp(34px, 5vw, 52px);
-      line-height: 1.1;
-      letter-spacing: -0.025em;
-      font-weight: 600;
-      margin: 0 0 20px;
-      text-wrap: balance;
-      max-width: 20ch;
-    }
-    .hero p {
-      font-size: 18px;
-      color: var(--ink-2);
-      margin: 0 0 32px;
-      max-width: 60ch;
-      text-wrap: pretty;
-    }
-    .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; }
-    .btn-primary {
-      display: inline-flex; align-items: center; gap: 8px;
-      background: var(--accent); color: #fff;
-      font-size: 15px; font-weight: 500;
-      padding: 12px 22px; border-radius: 10px;
-      transition: background 150ms ease;
-    }
-    .btn-primary:hover { background: var(--accent-ink); }
-    .btn-secondary {
-      display: inline-flex; align-items: center; gap: 8px;
-      background: #fff; color: var(--ink);
-      font-size: 15px; font-weight: 500;
-      padding: 12px 22px; border-radius: 10px;
-      border: 1px solid var(--line-strong);
-      transition: border-color 150ms ease, background 150ms ease;
-    }
-    .btn-secondary:hover { border-color: var(--muted); background: var(--bg-soft); }
-
-    /* ---------- Stats strip ---------- */
-    .stats {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      border-top: 1px solid var(--line);
-    }
-    .stat {
-      padding: 28px 24px;
-      border-left: 1px solid var(--line);
-    }
-    .stat:first-child { border-left: none; }
-    .stat .num {
-      font-size: 30px; font-weight: 600; letter-spacing: -0.02em;
-      font-variant-numeric: tabular-nums;
-    }
-    .stat .label { font-size: 14px; color: var(--muted); margin-top: 4px; }
-
-    /* ---------- Section scaffolding ---------- */
-    section { scroll-margin-top: 80px; }
-    .section-pad { padding-block: 84px; }
-    .section-head { max-width: 620px; margin-bottom: 44px; }
-    .section-head .kicker {
-      font-size: 13px; font-weight: 600; letter-spacing: 0.08em;
-      text-transform: uppercase; color: var(--accent);
-      margin-bottom: 12px;
-    }
-    .section-head h2 {
-      font-size: clamp(26px, 3.5vw, 34px);
-      letter-spacing: -0.02em; font-weight: 600;
-      margin: 0 0 14px; line-height: 1.2;
-    }
-    .section-head p {
-      font-size: 17px; color: var(--ink-2); margin: 0;
-      text-wrap: pretty;
-    }
-
-    /* ---------- About split ---------- */
-    .about-grid {
-      display: grid;
-      grid-template-columns: 1.1fr 0.9fr;
-      gap: 48px;
-      align-items: center;
-    }
-    .about-copy h3 {
-      font-size: 22px; font-weight: 600; letter-spacing: -0.015em;
-      margin: 0 0 14px;
-    }
-    .about-copy p {
-      color: var(--ink-2); font-size: 16px; margin: 0 0 16px;
-      max-width: 60ch;
-    }
-    .value-list {
-      list-style: none; padding: 0; margin: 24px 0 0;
-      display: grid; gap: 14px;
-    }
-    .value-list li {
-      display: flex; gap: 12px; align-items: flex-start;
-      font-size: 15px; color: var(--ink-2);
-    }
-    .value-list .ico {
-      flex-shrink: 0; width: 22px; height: 22px; margin-top: 1px;
-      color: var(--accent);
-    }
-    .about-media {
-      background: var(--accent-soft);
-      border: 1px solid var(--accent-ring);
-      border-radius: var(--radius);
-      padding: 36px;
-      display: grid; gap: 20px;
-    }
-    .about-media .quote {
-      font-size: 19px; font-weight: 500; color: var(--accent-ink);
-      letter-spacing: -0.01em; line-height: 1.5;
-    }
-    .about-media .by { font-size: 14px; color: var(--muted); }
-
-    /* ---------- Team cards ---------- */
-    .team-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 20px;
-    }
-    .member {
-      background: #fff;
-      border-radius: var(--radius);
-      box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 8px 24px rgba(0,0,0,0.04);
-      outline: 1px solid var(--line);
-      outline-offset: -1px;
-      overflow: hidden;
-      transition: transform 200ms ease, box-shadow 200ms ease;
-    }
-    .member:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 2px 4px rgba(0,0,0,0.05), 0 14px 34px rgba(0,0,0,0.08);
-    }
-    .member .top {
-      padding: 26px 26px 18px;
-      display: flex; align-items: center; gap: 16px;
-    }
-    .avatar {
-      width: 56px; height: 56px; border-radius: 50%;
-      background: var(--accent);
-      color: #fff; display: grid; place-items: center;
-      font-weight: 600; font-size: 19px; letter-spacing: -0.01em;
-      flex-shrink: 0;
-    }
-    .member .name { font-size: 17px; font-weight: 600; letter-spacing: -0.01em; }
-    .member .role { font-size: 14px; color: var(--accent-ink); margin-top: 2px; }
-    .member .body {
-      padding: 0 26px 24px;
-    }
-    .member .desc { font-size: 15px; color: var(--ink-2); margin: 0 0 16px; }
-    .tasks { list-style: none; padding: 0; margin: 0; display: grid; gap: 8px; }
-    .tasks li {
-      display: flex; gap: 9px; align-items: flex-start;
-      font-size: 14px; color: var(--ink-2);
-    }
-    .tasks .ico { flex-shrink: 0; width: 16px; height: 16px; margin-top: 3px; color: var(--accent); }
-    .member .foot {
-      border-top: 1px solid var(--line);
-      padding: 14px 26px;
-      display: flex; align-items: center; justify-content: space-between;
-      font-size: 13px; color: var(--muted);
-    }
-    .member .foot a { color: var(--accent-ink); font-weight: 500; }
-    .member .foot a:hover { text-decoration: underline; }
-
-    /* ---------- Manual ---------- */
-    #manual { background: var(--bg-soft); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
-    .manual-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 16px;
-    }
-    .manual-card {
-      background: #fff;
-      border-radius: var(--radius);
-      outline: 1px solid var(--line);
-      outline-offset: -1px;
-      padding: 26px;
-      transition: box-shadow 200ms ease;
-    }
-    .manual-card:hover { box-shadow: 0 10px 28px rgba(0,0,0,0.06); }
-    .manual-card .head {
-      display: flex; align-items: center; gap: 13px; margin-bottom: 12px;
-    }
-    .manual-card .badge {
-      width: 40px; height: 40px; border-radius: 10px;
-      background: var(--accent-soft);
-      display: grid; place-items: center; color: var(--accent-ink);
-      flex-shrink: 0;
-    }
-    .manual-card .badge svg { width: 20px; height: 20px; }
-    .manual-card h3 { font-size: 17px; font-weight: 600; margin: 0; letter-spacing: -0.01em; }
-    .manual-card p { font-size: 15px; color: var(--ink-2); margin: 0 0 16px; }
-    .manual-steps { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; counter-reset: step; }
-    .manual-steps li {
-      display: flex; gap: 12px; align-items: flex-start;
-      font-size: 14px; color: var(--ink-2);
-    }
-    .manual-steps li::before {
-      counter-increment: step; content: counter(step);
-      flex-shrink: 0;
-      width: 22px; height: 22px; border-radius: 50%;
-      background: var(--accent); color: #fff;
-      font-size: 12px; font-weight: 600;
-      display: grid; place-items: center;
-      font-variant-numeric: tabular-nums;
-    }
-    .manual-link {
-      display: inline-flex; align-items: center; gap: 6px;
-      margin-top: 18px; font-size: 14px; font-weight: 500; color: var(--accent-ink);
-    }
-    .manual-link:hover { gap: 9px; }
-    .manual-link svg { width: 15px; height: 15px; transition: transform 150ms ease; }
-
-    /* ---------- Contact / CTA ---------- */
-    .contact-band { background: var(--accent-ink); color: #fff; }
-    .contact-inner {
-      padding-block: 64px;
-      display: flex; align-items: center; justify-content: space-between;
-      gap: 32px; flex-wrap: wrap;
-    }
-    .contact-inner h2 { font-size: 28px; font-weight: 600; letter-spacing: -0.02em; margin: 0 0 8px; }
-    .contact-inner p { margin: 0; color: rgba(255,255,255,0.78); font-size: 16px; }
-    .contact-inner .btn-light {
-      display: inline-flex; align-items: center; gap: 8px;
-      background: #fff; color: var(--accent-ink);
-      font-weight: 600; font-size: 15px;
-      padding: 13px 24px; border-radius: 10px;
-      transition: transform 150ms ease;
-    }
-    .contact-inner .btn-light:hover { transform: translateY(-2px); }
-
-    /* ---------- Footer ---------- */
-    footer.site {
-      background: var(--ink);
-      color: rgba(255,255,255,0.72);
-      padding-block: 52px 36px;
-    }
-    .foot-grid {
-      display: grid;
-      grid-template-columns: 1.4fr repeat(3, 1fr);
-      gap: 40px;
-      padding-bottom: 36px;
-      border-bottom: 1px solid rgba(255,255,255,0.1);
-    }
-    .foot-brand .brand { color: #fff; margin-bottom: 14px; }
-    .foot-brand p { font-size: 14px; max-width: 34ch; margin: 0; line-height: 1.7; }
-    .foot-col h4 { color: #fff; font-size: 14px; font-weight: 600; margin: 0 0 14px; }
-    .foot-col ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; }
-    .foot-col a { font-size: 14px; transition: color 150ms ease; }
-    .foot-col a:hover { color: #fff; }
-    .foot-bottom {
-      padding-top: 24px;
-      display: flex; align-items: center; justify-content: space-between;
-      flex-wrap: wrap; gap: 12px;
-      font-size: 13px; color: rgba(255,255,255,0.5);
-    }
-
-    /* ---------- Responsive ---------- */
-    @media (max-width: 920px) {
-      .about-grid { grid-template-columns: 1fr; gap: 32px; }
-      .team-grid { grid-template-columns: repeat(2, 1fr); }
-      .foot-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
-    }
-    @media (max-width: 760px) {
-      nav.links { display: none; }
-      .nav-cta { display: none; }
-      .menu-toggle { display: grid; place-items: center; }
-      nav.links.open {
-        display: flex; flex-direction: column; align-items: flex-start;
-        position: absolute; top: 68px; left: 0; right: 0;
-        background: #fff; border-bottom: 1px solid var(--line);
-        padding: 20px 24px; gap: 18px;
-      }
-      .hero-inner { padding-block: 64px 56px; }
-      .stats { grid-template-columns: repeat(2, 1fr); }
-      .stat:nth-child(odd) { border-left: none; }
-      .stat:nth-child(3), .stat:nth-child(4) { border-top: 1px solid var(--line); }
-      .team-grid { grid-template-columns: 1fr; }
-      .manual-grid { grid-template-columns: 1fr; }
-      .foot-grid { grid-template-columns: 1fr; gap: 28px; }
-      .section-pad { padding-block: 60px; }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      * { transition: none !important; scroll-behavior: auto; }
-    }
-
-    :focus-visible {
-      outline: 2px solid var(--accent);
-      outline-offset: 3px;
-      border-radius: 4px;
-    }
-  </style>
+  @media (max-width: 700px) {
+    .titlepage h1 { font-size: clamp(2.4rem, 7vw, 3.4rem); }
+  }
+</style>
 </head>
-<body>
+<body data-sc-folio>
 
-  <header class="site">
-    <div class="container nav">
-      <a href="#top" class="brand" aria-label="홈으로">
-        <span class="mark" aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
-          </svg>
-        </span>
-        <span>Team&nbsp;Nexus</span>
-      </a>
+<span data-sc-progress></span>
+<div class="sc-grain" aria-hidden="true"></div>
 
-      <nav class="links" id="navLinks">
-        <a href="#about">팀 소개</a>
-        <a href="#members">팀원</a>
-        <a href="#manual">업무 매뉴얼</a>
-        <a href="#contact">문의</a>
-      </nav>
+<div class="folio" aria-hidden="true">
+  <b data-folio-no>00</b>
+  <span class="folio__t" data-folio-title>표지</span>
+</div>
 
-      <a href="#contact" class="nav-cta">
-        문의하기
-        <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-      </a>
+<main>
 
-      <button class="menu-toggle" id="menuToggle" aria-label="메뉴 열기" aria-expanded="false">
-        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
-      </button>
-    </div>
-  </header>
-
-  <section class="hero" id="top">
-    <div class="container hero-inner">
-      <span class="eyebrow"><span class="dot" aria-hidden="true"></span>About Our Team</span>
-      <h1>함께 성장하는 팀, 신뢰로 일하는 사람들</h1>
-      <p>
-        우리 팀은 각자의 전문성을 바탕으로 유기적으로 협업합니다.
-        아래에서 팀원별 담당 업무와 실무에 필요한 업무 매뉴얼을 확인하실 수 있습니다.
+  <section class="chapter" data-folio="표지" data-folio-n="00">
+    <header class="page titlepage">
+      <p class="titlepage__kick">일하는 방식에 관한 기록 · 2026 개정판</p>
+      <h1>누가 무엇을<br>맡는가에 관한 <em>기록</em>.</h1>
+      <p class="titlepage__sub">
+        우리 팀을 소개하는 열두 장의 노트. 여섯 사람이 각자 무엇을 책임지고,
+        어떤 약속 위에서 함께 일하는지를 적었습니다.
       </p>
-      <div class="hero-actions">
-        <a href="#members" class="btn-primary">
-          팀원 소개 보기
-          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-        </a>
-        <a href="#manual" class="btn-secondary">업무 매뉴얼</a>
+      <div class="titlepage__meta">
+        <span><b>여섯</b> 명의 담당자</span>
+        <span><b>네 개</b>의 업무 매뉴얼</span>
+        <span>문의 · <b>hello@team-note.example</b></span>
       </div>
+    </header>
+  </section>
+
+  <section class="chapter page" data-folio="제1장 · 전제" data-folio-n="01">
+    <div class="intertitle">
+      <p class="intertitle__no">제1장</p>
+      <h2>팀은 <em>누가 무엇을 맡는가</em>에 관한 약속의 묶음이다.</h2>
     </div>
-    <div class="container">
-      <div class="stats">
-        <div class="stat"><div class="num">12</div><div class="label">팀원</div></div>
-        <div class="stat"><div class="num">4</div><div class="label">전문 분야</div></div>
-        <div class="stat"><div class="num">36</div><div class="label">진행 프로젝트</div></div>
-        <div class="stat"><div class="num">8<span style="font-size:18px">년</span></div><div class="label">평균 경력</div></div>
-      </div>
+    <div class="prose measure" data-sc-in data-sc-stagger="70">
+      <p class="lead">
+        조직도는 상자와 선이 아니라, 책임의 경계선입니다. 어디까지가 내 일이고
+        어디부터가 당신의 일인지가 분명할 때, 팀은 회의보다 일로 움직입니다.
+      </p>
+      <p>
+        이 노트는 그 경계선을 먼저 그립니다. 다음 장에서 우리 팀의 구조가
+        스크롤을 따라 한 선씩 이어지고, 각자의 이름과 역할이 그 위에 올라갑니다.
+        그 뒤로 여섯 사람의 담당 업무를, 마지막으로 함께 지키는 네 가지 일하는
+        방식을 차례로 읽게 됩니다.
+      </p>
     </div>
   </section>
 
-  <section class="section-pad" id="about">
-    <div class="container">
-      <div class="section-head">
-        <div class="kicker">Who we are</div>
-        <h2>팀 소개</h2>
-        <p>우리가 어떤 가치를 가지고 일하는지, 그리고 어떻게 협업하는지 소개합니다.</p>
-      </div>
+  <section class="chapter chart-act" data-folio="제2장 · 구조" data-folio-n="02"
+           data-sc-act="pin" data-sc-span="3.4">
+    <div data-sc-stage>
+      <figure class="chart" data-chart aria-label="팀 구조도: 리더를 중심으로 기획, 디자인, 개발, 운영이 연결된다.">
+        <svg viewBox="0 0 900 460" role="img">
+          <path class="edge" d="M450 92 V210" data-edge></path>
+          <path class="edge" d="M450 210 H150 V300" data-edge></path>
+          <path class="edge" d="M450 210 H330 V300" data-edge></path>
+          <path class="edge" d="M450 210 H570 V300" data-edge></path>
+          <path class="edge" d="M450 210 H750 V300" data-edge></path>
+          <path class="edge" d="M150 348 V392" data-edge></path>
+          <path class="edge" d="M750 348 V392" data-edge></path>
 
-      <div class="about-grid">
-        <div class="about-copy">
-          <h3>전문성과 협업으로 문제를 해결합니다</h3>
-          <p>
-            Team Nexus는 기획, 디자인, 개발, 운영 전 영역의 구성원이 하나의 목표를 향해
-            협업하는 팀입니다. 명확한 역할 분담과 투명한 커뮤니케이션을 바탕으로,
-            각자의 전문성이 시너지를 낼 수 있는 환경을 지향합니다.
-          </p>
-          <p>
-            우리는 문서화를 중요하게 생각합니다. 모든 업무 프로세스는 매뉴얼로 정리되어
-            누구나 쉽게 참고하고 빠르게 온보딩할 수 있습니다.
-          </p>
-          <ul class="value-list">
-            <li>
-              <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
-              <span><strong style="color:var(--ink)">투명한 소통</strong> — 모든 결정과 진행 상황을 공유합니다.</span>
-            </li>
-            <li>
-              <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
-              <span><strong style="color:var(--ink)">문서화 우선</strong> — 지식은 쌓이고 공유되어야 합니다.</span>
-            </li>
-            <li>
-              <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
-              <span><strong style="color:var(--ink)">책임과 신뢰</strong> — 각자 맡은 일에 끝까지 책임집니다.</span>
-            </li>
+          <g data-node="0">
+            <circle class="node-ring node-hub" cx="450" cy="60" r="30"></circle>
+            <text class="node-label node-hub-label" x="450" y="56" text-anchor="middle" font-size="16">총괄</text>
+            <text class="node-role node-hub-label" x="450" y="76" text-anchor="middle" font-size="11" opacity="0.85">김지훈</text>
+          </g>
+
+          <g data-node="1">
+            <circle class="node-ring" cx="150" cy="324" r="26"></circle>
+            <text class="node-label" x="150" y="320" text-anchor="middle" font-size="15">기획</text>
+            <text class="node-role" x="150" y="338" text-anchor="middle" font-size="11">이수민</text>
+          </g>
+          <g data-node="2">
+            <circle class="node-ring" cx="330" cy="324" r="26"></circle>
+            <text class="node-label" x="330" y="320" text-anchor="middle" font-size="15">디자인</text>
+            <text class="node-role" x="330" y="338" text-anchor="middle" font-size="11">박서준</text>
+          </g>
+          <g data-node="3">
+            <circle class="node-ring" cx="570" cy="324" r="26"></circle>
+            <text class="node-label" x="570" y="320" text-anchor="middle" font-size="15">개발</text>
+            <text class="node-role" x="570" y="338" text-anchor="middle" font-size="11">최민재</text>
+          </g>
+          <g data-node="4">
+            <circle class="node-ring" cx="750" cy="324" r="26"></circle>
+            <text class="node-label" x="750" y="320" text-anchor="middle" font-size="15">운영</text>
+            <text class="node-role" x="750" y="338" text-anchor="middle" font-size="11">강은지</text>
+          </g>
+
+          <g data-node="5">
+            <circle class="node-ring" cx="150" cy="414" r="22"></circle>
+            <text class="node-label" x="150" y="410" text-anchor="middle" font-size="13">백엔드</text>
+            <text class="node-role" x="150" y="426" text-anchor="middle" font-size="10">정하윤</text>
+          </g>
+          <g data-node="6">
+            <circle class="node-ring" cx="750" cy="414" r="22"></circle>
+            <text class="node-label" x="750" y="410" text-anchor="middle" font-size="13">고객지원</text>
+            <text class="node-role" x="750" y="426" text-anchor="middle" font-size="10">현장 접점</text>
+          </g>
+        </svg>
+        <figcaption data-chart-cap>스크롤에 따라 구조가 그려집니다. 총괄에서 네 축으로, 다시 실무로.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="chapter page" data-folio="제3장 · 담당자" data-folio-n="03">
+    <div class="intertitle">
+      <p class="intertitle__no">제3장</p>
+      <h2>여섯 사람, 여섯 개의 책임.</h2>
+      <p class="prose measure"><span class="lead">각 담당자의 전문 분야와 맡은 일을 적었습니다. 업무 문의는 담당자에게 직접 연락해 주세요.</span></p>
+    </div>
+
+    <article class="entry">
+      <div class="entry__grid" data-sc-in data-sc-stagger="60">
+        <div class="entry__figure">
+          <div class="entry__plate">
+            <svg viewBox="0 0 200 250" aria-hidden="true">
+              <text class="glyph" x="100" y="150" text-anchor="middle" font-size="96">지</text>
+            </svg>
+          </div>
+        </div>
+        <div>
+          <p class="entry__role">팀 리더 · 프로젝트 총괄</p>
+          <h2 class="entry__name">김지훈 <small>경력 12년</small></h2>
+          <p class="entry__desc prose">팀의 방향성을 설정하고 프로젝트 전반을 조율합니다. 무엇을 먼저 할지, 누가 맡을지를 정하는 사람입니다.</p>
+          <ul class="entry__owns">
+            <li><dfn>맡은 일</dfn><span>프로젝트 일정과 리소스 관리</span></li>
+            <li><dfn>맡은 일</dfn><span>이해관계자 커뮤니케이션</span></li>
+            <li><dfn>맡은 일</dfn><span>팀 성과 관리 및 평가</span></li>
           </ul>
+          <p class="entry__contact"><a href="mailto:jihoon@team-note.example">jihoon@team-note.example</a></p>
         </div>
-
-        <aside class="about-media">
-          <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5" style="color:var(--accent)" aria-hidden="true"><path d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .25-1 1.25V20c0 1 0 1 1 1z"/><path d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z"/></svg>
-          <p class="quote">“혼자 가면 빠르지만, 함께 가면 멀리 갑니다. 우리 팀의 모든 성과는 협업의 결과입니다.”</p>
-          <div class="by">— 팀 리더, 김지훈</div>
-        </aside>
       </div>
-    </div>
-  </section>
+    </article>
 
-  <section class="section-pad" id="members" style="background:var(--bg-soft);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
-    <div class="container">
-      <div class="section-head">
-        <div class="kicker">Our people</div>
-        <h2>팀원 및 담당 업무</h2>
-        <p>각 팀원의 전문 분야와 담당 업무를 소개합니다. 업무 관련 문의는 담당자에게 직접 연락해 주세요.</p>
-      </div>
-
-      <div class="team-grid">
-
-        <article class="member">
-          <div class="top">
-            <div class="avatar" aria-hidden="true">김지</div>
-            <div>
-              <div class="name">김지훈</div>
-              <div class="role">팀 리더 · 프로젝트 총괄</div>
-            </div>
+    <article class="entry">
+      <div class="entry__grid" data-sc-in data-sc-stagger="60">
+        <div class="entry__figure">
+          <div class="entry__plate">
+            <svg viewBox="0 0 200 250" aria-hidden="true">
+              <text class="glyph" x="100" y="150" text-anchor="middle" font-size="96">수</text>
+            </svg>
           </div>
-          <div class="body">
-            <p class="desc">팀의 방향성을 설정하고 프로젝트 전반을 조율합니다.</p>
-            <ul class="tasks">
-              <li><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>프로젝트 일정 및 리소스 관리</li>
-              <li><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>이해관계자 커뮤니케이션</li>
-              <li><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>팀 성과 관리 및 평가</li>
-            </ul>
-          </div>
-          <div class="foot">
-            <span>경력 12년</span>
-            <a href="mailto:jihoon@teamnexus.example">이메일 보내기</a>
-          </div>
-        </article>
-
-        <article class="member">
-          <div class="top">
-            <div class="avatar" aria-hidden="true">이수</div>
-            <div>
-              <div class="name">이수민</div>
-              <div class="role">프로덕트 기획</div>
-            </div>
-          </div>
-          <div class="body">
-            <p class="desc">사용자 요구사항을 정의하고 제품 방향을 설계합니다.</p>
-            <ul class="tasks">
-              <li><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>요구사항 분석 및 기획서 작성</li>
-              <li><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>로드맵 수립 및 우선순위 관리</li>
-              <li><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>데이터 기반 의사결정 지원</li>
-            </ul>
-          </div>
-          <div class="foot">
-            <span>경력 7년</span>
-            <a href="mailto:sumin@teamnexus.example">이메일 보내기</a>
-          </div>
-        </article>
-
-        <article class="member">
-          <div class="top">
-            <div class="avatar" aria-hidden="true">박서</div>
-            <div>
-              <div class="name">박서준</div>
-              <div class="role">UX/UI 디자인</div>
-            </div>
-          </div>
-          <div class="body">
-            <p class="desc">사용자 경험을 설계하고 일관된 디자인 시스템을 구축합니다.</p>
-            <ul class="tasks">
-              <li><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>UI 디자인 및 프로토타이핑</li>
-              <li><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>디자인 시스템 유지보수</li>
-              <li><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>사용성 테스트 진행</li>
-            </ul>
-          </div>
-          <div class="foot">
-            <span>경력 6년</span>
-            <a href="mailto:seojun@teamnexus.example">이메일 보내기</a>
-          </div>
-        </article>
-
-        <article class="member">
-          <div class="top">
-            <div class="avatar" aria-hidden="true">최민</div>
-            <div>
-              <div class="name">최민재</div>
-              <div class="role">프론트엔드 개발</div>
-            </div>
-          </div>
-          <div class="body">
-            <p class="desc">사용자 인터페이스를 구현하고 프론트엔드 품질을 책임집니다.</p>
-            <ul class="tasks">
-              <li><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>웹 UI 컴포넌트 개발</li>
-              <li><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>성능 최적화 및 접근성 개선</li>
-              <li><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>디자인 QA 및 코드 리뷰</li>
-            </ul>
-          </div>
-          <div class="foot">
-            <span>경력 5년</span>
-            <a href="mailto:minjae@teamnexus.example">이메일 보내기</a>
-          </div>
-        </article>
-
-        <article class="member">
-          <div class="top">
-            <div class="avatar" aria-hidden="true">정하</div>
-            <div>
-              <div class="name">정하윤</div>
-              <div class="role">백엔드 개발</div>
-            </div>
-          </div>
-          <div class="body">
-            <p class="desc">안정적인 서버와 API를 설계하고 데이터를 관리합니다.</p>
-            <ul class="tasks">
-              <li><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>API 설계 및 서버 개발</li>
-              <li><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>데이터베이스 운영 및 최적화</li>
-              <li><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>보안 및 인프라 모니터링</li>
-            </ul>
-          </div>
-          <div class="foot">
-            <span>경력 9년</span>
-            <a href="mailto:hayoon@teamnexus.example">이메일 보내기</a>
-          </div>
-        </article>
-
-        <article class="member">
-          <div class="top">
-            <div class="avatar" aria-hidden="true">강은</div>
-            <div>
-              <div class="name">강은지</div>
-              <div class="role">운영 · 고객지원</div>
-            </div>
-          </div>
-          <div class="body">
-            <p class="desc">서비스 운영과 고객 소통을 담당하며 현장의 목소리를 전달합니다.</p>
-            <ul class="tasks">
-              <li><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>고객 문의 응대 및 CS 관리</li>
-              <li><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>운영 데이터 리포팅</li>
-              <li><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>프로세스 개선 제안</li>
-            </ul>
-          </div>
-          <div class="foot">
-            <span>경력 4년</span>
-            <a href="mailto:eunji@teamnexus.example">이메일 보내기</a>
-          </div>
-        </article>
-
-      </div>
-    </div>
-  </section>
-
-  <section class="section-pad" id="manual">
-    <div class="container">
-      <div class="section-head">
-        <div class="kicker">How we work</div>
-        <h2>업무 매뉴얼</h2>
-        <p>실무에서 자주 쓰이는 핵심 프로세스를 정리했습니다. 온보딩 시 가장 먼저 확인해 주세요.</p>
-      </div>
-
-      <div class="manual-grid">
-
-        <article class="manual-card">
-          <div class="head">
-            <span class="badge" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M16 13H8M16 17H8M10 9H8"/></svg>
-            </span>
-            <h3>신규 프로젝트 착수 절차</h3>
-          </div>
-          <p>새 프로젝트를 시작할 때 따라야 하는 표준 단계입니다.</p>
-          <ol class="manual-steps">
-            <li>프로젝트 목표와 범위를 기획서로 정의합니다.</li>
-            <li>담당자와 일정을 배정하고 킥오프 미팅을 진행합니다.</li>
-            <li>공유 드라이브에 작업 폴더와 문서를 생성합니다.</li>
-            <li>주간 단위로 진행 상황을 점검하고 공유합니다.</li>
-          </ol>
-          <a href="#" class="manual-link">자세히 보기 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
-        </article>
-
-        <article class="manual-card">
-          <div class="head">
-            <span class="badge" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-            </span>
-            <h3>커뮤니케이션 원칙</h3>
-          </div>
-          <p>원활한 협업을 위한 소통 가이드입니다.</p>
-          <ol class="manual-steps">
-            <li>업무 요청은 명확한 목적과 기한을 함께 전달합니다.</li>
-            <li>결정 사항은 반드시 문서로 기록해 공유합니다.</li>
-            <li>긴급 건은 지정된 채널로 즉시 알립니다.</li>
-            <li>회의는 아젠다와 회의록을 기본으로 합니다.</li>
-          </ol>
-          <a href="#" class="manual-link">자세히 보기 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
-        </article>
-
-        <article class="manual-card">
-          <div class="head">
-            <span class="badge" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-            </span>
-            <h3>문서 관리 규칙</h3>
-          </div>
-          <p>모든 산출물이 체계적으로 쌓이도록 지켜주세요.</p>
-          <ol class="manual-steps">
-            <li>파일명은 "날짜_프로젝트_버전" 형식을 사용합니다.</li>
-            <li>최종본은 지정된 공유 폴더에만 보관합니다.</li>
-            <li>버전이 바뀌면 변경 이력을 함께 기록합니다.</li>
-            <li>민감 정보는 접근 권한을 반드시 확인합니다.</li>
-          </ol>
-          <a href="#" class="manual-link">자세히 보기 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
-        </article>
-
-        <article class="manual-card">
-          <div class="head">
-            <span class="badge" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-            </span>
-            <h3>휴가 및 근태 신청</h3>
-          </div>
-          <p>휴가와 재택 근무 신청 시 참고하세요.</p>
-          <ol class="manual-steps">
-            <li>최소 3일 전에 근태 시스템으로 신청합니다.</li>
-            <li>팀 캘린더에 일정을 반영합니다.</li>
-            <li>부재 중 업무 인수인계를 공유합니다.</li>
-            <li>승인 완료 후 최종 확정됩니다.</li>
-          </ol>
-          <a href="#" class="manual-link">자세히 보기 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
-        </article>
-
-      </div>
-    </div>
-  </section>
-
-  <section class="contact-band" id="contact">
-    <div class="container contact-inner">
-      <div>
-        <h2>궁금한 점이 있으신가요?</h2>
-        <p>업무 협업이나 문의 사항은 팀 메일로 편하게 연락 주세요.</p>
-      </div>
-      <a href="mailto:hello@teamnexus.example" class="btn-light">
-        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 5L2 7"/></svg>
-        hello@teamnexus.example
-      </a>
-    </div>
-  </section>
-
-  <footer class="site">
-    <div class="container">
-      <div class="foot-grid">
-        <div class="foot-brand">
-          <div class="brand">
-            <span class="mark" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-            </span>
-            <span style="font-weight:600">Team Nexus</span>
-          </div>
-          <p>전문성과 협업으로 더 나은 결과를 만드는 팀. 함께 성장하는 사람들의 공간입니다.</p>
         </div>
-
-        <div class="foot-col">
-          <h4>바로가기</h4>
-          <ul role="list">
-            <li><a href="#about">팀 소개</a></li>
-            <li><a href="#members">팀원</a></li>
-            <li><a href="#manual">업무 매뉴얼</a></li>
-            <li><a href="#contact">문의</a></li>
+        <div>
+          <p class="entry__role">프로덕트 기획</p>
+          <h2 class="entry__name">이수민 <small>경력 7년</small></h2>
+          <p class="entry__desc prose">사용자 요구사항을 정의하고 제품의 방향을 설계합니다. 만들 것과 만들지 않을 것을 가르는 사람입니다.</p>
+          <ul class="entry__owns">
+            <li><dfn>맡은 일</dfn><span>요구사항 분석 및 기획서 작성</span></li>
+            <li><dfn>맡은 일</dfn><span>로드맵 수립 및 우선순위 관리</span></li>
+            <li><dfn>맡은 일</dfn><span>데이터 기반 의사결정 지원</span></li>
           </ul>
-        </div>
-
-        <div class="foot-col">
-          <h4>리소스</h4>
-          <ul role="list">
-            <li><a href="#">공유 드라이브</a></li>
-            <li><a href="#">사내 위키</a></li>
-            <li><a href="#">일정 캘린더</a></li>
-            <li><a href="#">온보딩 가이드</a></li>
-          </ul>
-        </div>
-
-        <div class="foot-col">
-          <h4>연락처</h4>
-          <ul role="list">
-            <li><a href="mailto:hello@teamnexus.example">hello@teamnexus.example</a></li>
-            <li><a href="tel:+8225550000">02-555-0000</a></li>
-            <li>서울특별시 어딘가 1길 10</li>
-          </ul>
+          <p class="entry__contact"><a href="mailto:sumin@team-note.example">sumin@team-note.example</a></p>
         </div>
       </div>
+    </article>
 
-      <div class="foot-bottom">
-        <span>© 2026 Team Nexus. All rights reserved.</span>
-        <span>Internal use only</span>
+    <article class="entry">
+      <div class="entry__grid" data-sc-in data-sc-stagger="60">
+        <div class="entry__figure">
+          <div class="entry__plate">
+            <svg viewBox="0 0 200 250" aria-hidden="true">
+              <text class="glyph" x="100" y="150" text-anchor="middle" font-size="96">서</text>
+            </svg>
+          </div>
+        </div>
+        <div>
+          <p class="entry__role">UX · UI 디자인</p>
+          <h2 class="entry__name">박서준 <small>경력 6년</small></h2>
+          <p class="entry__desc prose">사용자 경험을 설계하고 일관된 디자인 시스템을 지킵니다. 화면이 어떻게 보이고 어떻게 쓰이는지를 책임집니다.</p>
+          <ul class="entry__owns">
+            <li><dfn>맡은 일</dfn><span>UI 디자인 및 프로토타이핑</span></li>
+            <li><dfn>맡은 일</dfn><span>디자인 시스템 유지보수</span></li>
+            <li><dfn>맡은 일</dfn><span>사용성 테스트 진행</span></li>
+          </ul>
+          <p class="entry__contact"><a href="mailto:seojun@team-note.example">seojun@team-note.example</a></p>
+        </div>
+      </div>
+    </article>
+
+    <article class="entry">
+      <div class="entry__grid" data-sc-in data-sc-stagger="60">
+        <div class="entry__figure">
+          <div class="entry__plate">
+            <svg viewBox="0 0 200 250" aria-hidden="true">
+              <text class="glyph" x="100" y="150" text-anchor="middle" font-size="96">민</text>
+            </svg>
+          </div>
+        </div>
+        <div>
+          <p class="entry__role">프론트엔드 개발</p>
+          <h2 class="entry__name">최민재 <small>경력 5년</small></h2>
+          <p class="entry__desc prose">사용자 인터페이스를 구현하고 프론트엔드 품질을 책임집니다. 디자인이 실제로 움직이게 만드는 사람입니다.</p>
+          <ul class="entry__owns">
+            <li><dfn>맡은 일</dfn><span>웹 UI 컴포넌트 개발</span></li>
+            <li><dfn>맡은 일</dfn><span>성능 최적화 및 접근성 개선</span></li>
+            <li><dfn>맡은 일</dfn><span>디자인 QA 및 코드 리뷰</span></li>
+          </ul>
+          <p class="entry__contact"><a href="mailto:minjae@team-note.example">minjae@team-note.example</a></p>
+        </div>
+      </div>
+    </article>
+
+    <article class="entry">
+      <div class="entry__grid" data-sc-in data-sc-stagger="60">
+        <div class="entry__figure">
+          <div class="entry__plate">
+            <svg viewBox="0 0 200 250" aria-hidden="true">
+              <text class="glyph" x="100" y="150" text-anchor="middle" font-size="96">하</text>
+            </svg>
+          </div>
+        </div>
+        <div>
+          <p class="entry__role">백엔드 개발</p>
+          <h2 class="entry__name">정하윤 <small>경력 9년</small></h2>
+          <p class="entry__desc prose">안정적인 서버와 API를 설계하고 데이터를 관리합니다. 눈에 보이지 않는 곳에서 서비스를 떠받치는 사람입니다.</p>
+          <ul class="entry__owns">
+            <li><dfn>맡은 일</dfn><span>API 설계 및 서버 개발</span></li>
+            <li><dfn>맡은 일</dfn><span>데이터베이스 운영 및 최적화</span></li>
+            <li><dfn>맡은 일</dfn><span>보안 및 인프라 모니터링</span></li>
+          </ul>
+          <p class="entry__contact"><a href="mailto:hayoon@team-note.example">hayoon@team-note.example</a></p>
+        </div>
+      </div>
+    </article>
+
+    <article class="entry">
+      <div class="entry__grid" data-sc-in data-sc-stagger="60">
+        <div class="entry__figure">
+          <div class="entry__plate">
+            <svg viewBox="0 0 200 250" aria-hidden="true">
+              <text class="glyph" x="100" y="150" text-anchor="middle" font-size="96">은</text>
+            </svg>
+          </div>
+        </div>
+        <div>
+          <p class="entry__role">운영 · 고객지원</p>
+          <h2 class="entry__name">강은지 <small>경력 4년</small></h2>
+          <p class="entry__desc prose">서비스 운영과 고객 소통을 맡아 현장의 목소리를 팀에 전달합니다. 바깥에서 팀 안으로 이어지는 창구입니다.</p>
+          <ul class="entry__owns">
+            <li><dfn>맡은 일</dfn><span>고객 문의 응대 및 CS 관리</span></li>
+            <li><dfn>맡은 일</dfn><span>운영 데이터 리포팅</span></li>
+            <li><dfn>맡은 일</dfn><span>프로세스 개선 제안</span></li>
+          </ul>
+          <p class="entry__contact"><a href="mailto:eunji@team-note.example">eunji@team-note.example</a></p>
+        </div>
+      </div>
+    </article>
+  </section>
+
+  <section class="chapter page" data-folio="제4장 · 방식" data-folio-n="04">
+    <div class="intertitle">
+      <p class="intertitle__no">제4장</p>
+      <h2>함께 지키는 <em>네 가지</em> 방식.</h2>
+      <p class="prose measure"><span class="lead">실무에서 자주 쓰이는 핵심 절차를 적었습니다. 새로 합류하면 가장 먼저 읽어 주세요.</span></p>
+    </div>
+
+    <div class="method">
+      <div class="method__item" data-sc-in data-sc-stagger="60">
+        <div>
+          <h3>신규 프로젝트 착수</h3>
+          <p class="prose">새 프로젝트를 시작할 때 따르는 표준 단계입니다.</p>
+        </div>
+        <ol class="steps">
+          <li>프로젝트 목표와 범위를 기획서로 정의합니다.</li>
+          <li>담당자와 일정을 배정하고 킥오프 미팅을 진행합니다.</li>
+          <li>공유 드라이브에 작업 폴더와 문서를 생성합니다.</li>
+          <li>주간 단위로 진행 상황을 점검하고 공유합니다.</li>
+        </ol>
+      </div>
+
+      <div class="method__item" data-sc-in data-sc-stagger="60">
+        <div>
+          <h3>커뮤니케이션 원칙</h3>
+          <p class="prose">원활한 협업을 위한 소통 기준입니다.</p>
+        </div>
+        <ol class="steps">
+          <li>업무 요청은 명확한 목적과 기한을 함께 전달합니다.</li>
+          <li>결정 사항은 반드시 문서로 기록해 공유합니다.</li>
+          <li>긴급한 건은 지정된 채널로 즉시 알립니다.</li>
+          <li>회의는 아젠다와 회의록을 기본으로 합니다.</li>
+        </ol>
+      </div>
+
+      <div class="method__item" data-sc-in data-sc-stagger="60">
+        <div>
+          <h3>문서 관리 규칙</h3>
+          <p class="prose">모든 산출물이 체계적으로 쌓이도록 지켜 주세요.</p>
+        </div>
+        <ol class="steps">
+          <li>파일명은 날짜·프로젝트·버전 순서로 적습니다.</li>
+          <li>최종본은 지정된 공유 폴더에만 보관합니다.</li>
+          <li>버전이 바뀌면 변경 이력을 함께 기록합니다.</li>
+          <li>민감 정보는 접근 권한을 반드시 확인합니다.</li>
+        </ol>
+      </div>
+
+      <div class="method__item" data-sc-in data-sc-stagger="60">
+        <div>
+          <h3>휴가 및 근태 신청</h3>
+          <p class="prose">휴가와 재택 근무를 신청할 때 참고하세요.</p>
+        </div>
+        <ol class="steps">
+          <li>최소 사흘 전에 근태 시스템으로 신청합니다.</li>
+          <li>팀 캘린더에 일정을 반영합니다.</li>
+          <li>부재 중 업무 인수인계를 공유합니다.</li>
+          <li>승인이 완료되면 최종 확정됩니다.</li>
+        </ol>
       </div>
     </div>
-  </footer>
+  </section>
 
-  <script>
-    // 모바일 메뉴 토글
-    (function () {
-      var toggle = document.getElementById('menuToggle');
-      var links = document.getElementById('navLinks');
-      if (!toggle || !links) return;
-      toggle.addEventListener('click', function () {
-        var open = links.classList.toggle('open');
-        toggle.setAttribute('aria-expanded', String(open));
-        toggle.setAttribute('aria-label', open ? '메뉴 닫기' : '메뉴 열기');
+  <section class="chapter page" data-folio="판권 · 맺음" data-folio-n="05">
+    <footer class="colophon">
+      <p class="colophon__line" data-sc-in>
+        경계선은 그렸습니다. 이제 함께 일할 차례입니다.
+        협업이나 문의는 <a href="mailto:hello@team-note.example">hello@team-note.example</a> 로 보내 주세요.
+      </p>
+      <dl class="colophon__masthead" data-sc-in data-sc-stagger="50">
+        <div>
+          <dt>총괄</dt>
+          <dd>김지훈 · 프로젝트 총괄</dd>
+        </div>
+        <div>
+          <dt>구성</dt>
+          <dd>기획 · 디자인 · 개발 · 운영</dd>
+        </div>
+        <div>
+          <dt>문의</dt>
+          <dd><a href="mailto:hello@team-note.example">hello@team-note.example</a></dd>
+        </div>
+      </dl>
+      <p class="colophon__fine">팀 노트 · 2026 개정판 · 일하는 방식에 관한 기록</p>
+    </footer>
+  </section>
+
+</main>
+
+<script src="scrollcraft.js"></script>
+<script>
+  ScrollCraft.mount(document.body);
+
+  (function drawChart() {
+    const fig = document.querySelector("[data-chart]");
+    if (!fig) return;
+    const act = fig.closest("[data-sc-act]");
+    const edges = Array.from(fig.querySelectorAll("[data-edge]"));
+    const nodes = Array.from(fig.querySelectorAll("[data-node]")).sort(
+      (a, b) => Number(a.dataset.node) - Number(b.dataset.node)
+    );
+
+    edges.forEach((e) => {
+      const len = e.getTotalLength();
+      e.style.setProperty("--len", len);
+    });
+
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduce) {
+      edges.forEach((e) => (e.style.strokeDashoffset = "0"));
+      nodes.forEach((n) =>
+        n.querySelectorAll(".node-ring, .node-label, .node-role").forEach(
+          (el) => (el.style.opacity = "1")
+        )
+      );
+      return;
+    }
+
+    const hub = nodes.find((n) => Number(n.dataset.node) === 0);
+    const branches = nodes.filter((n) => Number(n.dataset.node) !== 0);
+    if (hub) {
+      hub.querySelectorAll(".node-ring, .node-label, .node-role").forEach(
+        (el) => (el.style.opacity = "1")
+      );
+    }
+
+    const EDGE_START = 0.06;
+    const EDGE_END = 0.64;
+    const NODE_START = 0.24;
+    const NODE_END = 0.9;
+    const ease = (t) => 1 - Math.pow(1 - t, 3);
+    const span = (p, a, b) => Math.max(0, Math.min(1, (p - a) / (b - a)));
+
+    function frame() {
+      const p = parseFloat(act.style.getPropertyValue("--sc-p")) || 0;
+
+      const drawn = ease(span(p, EDGE_START, EDGE_END));
+      edges.forEach((e, i) => {
+        const seg = 1 / edges.length;
+        const local = Math.max(0, Math.min(1, (drawn - i * seg) / seg));
+        const len = parseFloat(e.style.getPropertyValue("--len")) || 0;
+        e.style.strokeDashoffset = String(len * (1 - local));
       });
-      links.addEventListener('click', function (e) {
-        if (e.target.tagName === 'A') {
-          links.classList.remove('open');
-          toggle.setAttribute('aria-expanded', 'false');
-        }
-      });
-    })();
-  </script>
 
+      branches.forEach((n, i) => {
+        const at = NODE_START + (i / branches.length) * (NODE_END - NODE_START);
+        const o = ease(span(p, at, at + 0.14));
+        n.querySelectorAll(".node-ring").forEach((el) => {
+          el.style.opacity = String(o);
+          el.style.transform = "scale(" + (0.82 + 0.18 * o) + ")";
+        });
+        n.querySelectorAll(".node-label, .node-role").forEach(
+          (el) => (el.style.opacity = String(o))
+        );
+      });
+
+      requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+  })();
+
+  (function folio() {
+    const bar = document.querySelector("[data-folio-no]");
+    const title = document.querySelector("[data-folio-title]");
+    if (!bar || !title) return;
+    const chapters = Array.from(document.querySelectorAll("[data-folio]"));
+    let current = "";
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((en) => {
+          if (en.isIntersecting) {
+            const el = en.target;
+            const next = el.dataset.folio;
+            if (next !== current) {
+              current = next;
+              bar.textContent = el.dataset.folioN;
+              title.textContent = next;
+            }
+          }
+        });
+      },
+      { rootMargin: "-45% 0px -45% 0px", threshold: 0 }
+    );
+    chapters.forEach((c) => io.observe(c));
+  })();
+</script>
 </body>
 </html>
