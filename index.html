@@ -5,75 +5,133 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>팀 노트 · 누가 무엇을 맡는가에 관한 기록</title>
 <meta name="description" content="여섯 사람이 하나의 제품을 만드는 팀의 담당 업무와 일하는 방식을 편집물처럼 기록한 페이지.">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%23ffffff'/><rect x='9' y='9' width='14' height='14' rx='2' fill='%231d4ed8'/></svg>">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%230a1530'/><rect x='9' y='9' width='14' height='14' rx='3' fill='%235645d4'/></svg>">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 <link rel="stylesheet" href="scrollcraft.css">
 <style>
   :root {
+    /* Notion DESIGN.md - surfaces & text */
     --sc-canvas:      #ffffff;
-    --sc-surface:     #f2f6fd;
-    --sc-ink:         #1d4ed8;
-    --sc-ink-soft:    #3056a8;
-    --sc-accent:      #1e40af;
+    --sc-surface:     #f6f5f4;
+    --sc-ink:         #37352f;   /* Notion charcoal - primary text */
+    --sc-ink-soft:    #5d5b54;   /* slate - secondary text */
+    --sc-accent:      #5645d4;   /* Notion purple - reserved for CTA/emphasis */
     --sc-accent-ink:  #ffffff;
-    --sc-font-display: "Pretendard Variable", Pretendard, system-ui, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
-    --sc-font-text:    "Pretendard Variable", Pretendard, system-ui, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
-    --paper-line: color-mix(in oklab, var(--sc-ink) 14%, transparent);
-    --paper-line-soft: color-mix(in oklab, var(--sc-ink) 8%, transparent);
+    /* Notion design tokens */
+    --n-navy:         #0a1530;
+    --n-navy-deep:    #070f24;
+    --n-primary:      #5645d4;
+    --n-primary-pressed:#4534b3;
+    --n-link:         #0075de;
+    --n-surface-soft: #fafaf9;
+    --n-hairline:     #e5e3df;
+    --n-hairline-soft:#ede9e4;
+    --n-hairline-strong:#c8c4be;
+    --n-stone:        #a4a097;
+    --n-on-dark-muted:#a4a097;
+    --n-tint-sky:     #dcecfa;
+    --n-tint-mint:    #d9f3e1;
+    --n-tint-peach:   #ffe8d4;
+    --n-tint-lavender:#e6e0f5;
+    --n-tint-purple-800:#391c57;
+    --n-tint-orange-deep:#793400;
+    --n-tint-green:   #1aae39;
+    --n-r-sm:         6px;
+    --n-r-md:         8px;
+    --n-r-lg:         12px;
+    --n-shadow-card:  rgba(15,15,15,0.08) 0 4px 12px 0;
+    --n-shadow-mockup:rgba(15,15,15,0.20) 0 24px 48px -8px;
+    --sc-font-display: "Inter", "Pretendard Variable", Pretendard, system-ui, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+    --sc-font-text:    "Inter", "Pretendard Variable", Pretendard, system-ui, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+    --paper-line: var(--n-hairline);
+    --paper-line-soft: var(--n-hairline-soft);
   }
 
-  body { background: var(--sc-canvas); }
-  .sc-grain { opacity: 0.03; mix-blend-mode: multiply; }
+  body { background: var(--sc-canvas); color: var(--sc-ink); }
+  .sc-grain { opacity: 0.02; mix-blend-mode: multiply; }
 
   .folio {
     position: fixed; z-index: var(--sc-z-chrome);
     top: clamp(1.1rem, 3vh, 2.2rem); left: var(--sc-gutter);
     display: flex; align-items: baseline; gap: var(--sc-3);
     font-family: var(--sc-font-text);
-    font-size: var(--sc-t-xs); letter-spacing: var(--sc-track-wide);
+    font-size: var(--sc-t-xs); letter-spacing: 1px;
     text-transform: uppercase; color: var(--sc-ink-soft);
     pointer-events: none;
-    mix-blend-mode: multiply;
   }
   .folio b { font-weight: 600; color: var(--sc-ink); font-variant-numeric: tabular-nums; }
   .folio .folio__t { max-width: 46vw; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
   @media (max-width: 680px) { .folio .folio__t { display: none; } }
 
   .page { max-width: var(--sc-maxw); margin-inline: auto; padding-inline: var(--sc-gutter); }
-  .measure { max-width: 60ch; }
+  .measure { max-width: 68ch; }
 
+  /* ── Notion navy hero band ───────────────────────────── */
   .titlepage {
+    position: relative;
     min-height: 100svh;
     display: grid; align-content: center;
     padding-block: clamp(6rem, 18vh, 12rem) var(--sc-9);
-    border-bottom: 1px solid var(--paper-line);
+    padding-inline: var(--sc-gutter);
+    max-width: none; margin-inline: 0;
+    background: var(--n-navy);
+    color: #ffffff;
+    overflow: clip;
   }
+  .titlepage::before {
+    content: ""; position: absolute; inset: 0; pointer-events: none;
+    background:
+      radial-gradient(14px 14px at 12% 24%, #ff64c8 40%, transparent 42%),
+      radial-gradient(12px 12px at 86% 20%, #2a9d99 40%, transparent 42%),
+      radial-gradient(10px 10px at 78% 72%, #f5d75e 40%, transparent 42%),
+      radial-gradient(12px 12px at 20% 78%, #1aae39 40%, transparent 42%),
+      radial-gradient(10px 10px at 92% 54%, #dd5b00 40%, transparent 42%);
+    opacity: 0.85;
+  }
+  .titlepage > * { position: relative; max-width: var(--sc-maxw); margin-inline: auto; width: 100%; }
   .titlepage__kick {
     font-family: var(--sc-font-text);
-    font-size: var(--sc-t-sm); letter-spacing: var(--sc-track-wide);
-    text-transform: uppercase; color: var(--sc-ink-soft);
+    font-size: var(--sc-t-sm); letter-spacing: 1px;
+    text-transform: uppercase; color: var(--n-on-dark-muted);
     margin: 0 0 var(--sc-6);
   }
   .titlepage h1 {
-    font-size: clamp(2.3rem, 1.9rem + 1.6vw, 3rem);
-    line-height: 1.14; letter-spacing: var(--sc-track-snug);
-    font-weight: 600; margin: 0; text-wrap: balance;
+    font-size: clamp(2.6rem, 1.6rem + 4vw, 5rem);
+    line-height: 1.06; letter-spacing: -0.03em;
+    font-weight: 700; margin: 0; text-wrap: balance; color: #ffffff;
   }
-  .titlepage h1 em { font-style: italic; font-weight: 400; }
+  .titlepage h1 em { font-style: normal; color: var(--n-tint-lavender); }
   .titlepage__sub {
-    margin: var(--sc-7) 0 0; max-width: 42ch;
-    font-size: var(--sc-t-lg); line-height: 1.42; color: var(--sc-ink-soft);
-    font-family: var(--sc-font-text); text-wrap: pretty;
+    margin: var(--sc-7) 0 0; max-width: 46ch;
+    font-size: var(--sc-t-lg); line-height: 1.55; color: rgba(255,255,255,0.78);
+    font-family: var(--sc-font-text); font-weight: 400; text-wrap: pretty;
   }
+  .titlepage__cta {
+    margin-top: var(--sc-8); display: flex; flex-wrap: wrap; gap: var(--sc-4);
+  }
+  .btn {
+    display: inline-flex; align-items: center; gap: var(--sc-2);
+    font-family: var(--sc-font-text); font-size: var(--sc-t-sm); font-weight: 500;
+    padding: 11px 18px; border-radius: var(--n-r-md);
+    text-decoration: none; border: 1px solid transparent;
+    transition: background var(--sc-d-fast) var(--sc-ease-out), transform var(--sc-d-fast) var(--sc-ease-out);
+  }
+  .btn--primary { background: var(--n-primary); color: #ffffff; }
+  .btn--primary:hover { background: var(--n-primary-pressed); transform: translateY(-1px); }
+  .btn--on-dark { background: transparent; color: #ffffff; border-color: var(--n-on-dark-muted); }
+  .btn--on-dark:hover { background: rgba(255,255,255,0.08); }
   .titlepage__meta {
     margin-top: var(--sc-8); padding-top: var(--sc-5);
-    border-top: 1px solid var(--paper-line);
+    border-top: 1px solid rgba(255,255,255,0.14);
     display: flex; flex-wrap: wrap; gap: var(--sc-3) var(--sc-7);
     font-family: var(--sc-font-text); font-size: var(--sc-t-sm);
-    color: var(--sc-ink-soft);
+    color: var(--n-on-dark-muted);
   }
-  .titlepage__meta span b { color: var(--sc-ink); font-weight: 500; }
+  .titlepage__meta span b { color: #ffffff; font-weight: 600; }
 
   .intertitle {
     padding-block: clamp(5rem, 12vh, 9rem) var(--sc-7);
@@ -141,14 +199,22 @@
   .entry__figure { position: relative; }
   .entry__plate {
     position: relative; aspect-ratio: 4 / 5; overflow: clip;
-    border: 1px solid var(--paper-line);
-    background: var(--sc-surface);
+    border: 1px solid var(--n-hairline);
+    border-radius: var(--n-r-lg);
+    background: var(--n-tint-lavender);
+    box-shadow: var(--n-shadow-card);
     display: grid; place-items: center;
   }
+  .entry:nth-of-type(1) .entry__plate { background: var(--n-tint-lavender); }
+  .entry:nth-of-type(2) .entry__plate { background: var(--n-tint-sky); }
+  .entry:nth-of-type(3) .entry__plate { background: var(--n-tint-mint); }
+  .entry:nth-of-type(4) .entry__plate { background: var(--n-tint-peach); }
+  .entry:nth-of-type(5) .entry__plate { background: var(--n-tint-lavender); }
+  .entry:nth-of-type(6) .entry__plate { background: var(--n-tint-sky); }
   .entry__plate svg { width: 100%; height: 100%; }
   .entry__plate .glyph {
-    font-family: var(--sc-font-display); font-weight: 500;
-    fill: color-mix(in oklab, var(--sc-ink) 86%, transparent);
+    font-family: var(--sc-font-display); font-weight: 600;
+    fill: color-mix(in oklab, var(--sc-ink) 72%, transparent);
   }
   .entry__role {
     font-family: var(--sc-font-text); font-size: var(--sc-t-sm);
@@ -181,29 +247,38 @@
   .entry__contact {
     margin-top: var(--sc-5); font-family: var(--sc-font-text); font-size: var(--sc-t-sm);
   }
-  .entry__contact a { text-decoration: underline; text-decoration-color: var(--sc-accent); }
-  .entry__contact a:hover { color: var(--sc-accent); }
+  .entry__contact a { text-decoration: underline; text-decoration-color: var(--n-link); color: var(--n-link); }
+  .entry__contact a:hover { color: var(--n-primary-pressed); }
 
   .method { padding-block: clamp(3rem, 6vh, 5rem); }
-  .method__item {
-    display: grid; gap: var(--sc-4) var(--sc-8); padding-block: var(--sc-7);
-    border-top: 1px solid var(--paper-line);
+  .method__grid {
+    display: grid; gap: var(--sc-6);
     grid-template-columns: 1fr;
   }
-  @media (min-width: 820px) { .method__item { grid-template-columns: 22rem 1fr; } }
+  @media (min-width: 820px) { .method__grid { grid-template-columns: 1fr 1fr; } }
+  .method__item {
+    display: grid; gap: var(--sc-4); padding: var(--sc-7);
+    border: 1px solid var(--n-hairline);
+    border-radius: var(--n-r-lg);
+    align-content: start;
+  }
+  .method__item:nth-child(1) { background: var(--n-tint-sky); }
+  .method__item:nth-child(2) { background: var(--n-tint-mint); }
+  .method__item:nth-child(3) { background: var(--n-tint-peach); }
+  .method__item:nth-child(4) { background: var(--n-tint-lavender); }
   .method__item h3 {
-    font-family: var(--sc-font-display); font-weight: 500;
-    font-size: var(--sc-t-xl); line-height: 1.08; letter-spacing: var(--sc-track-snug);
+    font-family: var(--sc-font-display); font-weight: 600;
+    font-size: var(--sc-t-xl); line-height: 1.12; letter-spacing: var(--sc-track-snug);
     margin: 0;
   }
-  .method__item > p { margin: var(--sc-3) 0 0; }
+  .method__item > div > p { margin: var(--sc-3) 0 0; color: var(--sc-ink-soft); }
   .steps { list-style: none; margin: 0; padding: 0; counter-reset: s; }
   .steps li {
     display: grid; grid-template-columns: 2.4rem 1fr; gap: var(--sc-4);
     padding: var(--sc-4) 0; font-family: var(--sc-font-text);
-    border-bottom: 1px solid var(--paper-line-soft); counter-increment: s;
+    border-bottom: 1px solid color-mix(in oklab, var(--sc-ink) 12%, transparent); counter-increment: s;
   }
-  .steps li:first-child { border-top: 1px solid var(--paper-line-soft); }
+  .steps li:first-child { border-top: 1px solid color-mix(in oklab, var(--sc-ink) 12%, transparent); }
   .steps li::before {
     content: counter(s, decimal-leading-zero);
     font-variant-numeric: tabular-nums; color: var(--sc-accent);
@@ -222,12 +297,12 @@
     margin: 0; max-width: 24ch; text-wrap: balance;
   }
   .colophon__line a {
-    color: var(--sc-accent);
+    color: var(--n-link);
     text-decoration: underline; text-decoration-thickness: 2px;
     text-underline-offset: 0.14em;
     transition: color var(--sc-d-fast) var(--sc-ease-out);
   }
-  .colophon__line a:hover { color: var(--sc-ink); }
+  .colophon__line a:hover { color: var(--n-primary-pressed); }
   .colophon__masthead {
     margin-top: var(--sc-9); padding-top: var(--sc-5);
     border-top: 1px solid var(--paper-line);
@@ -240,7 +315,8 @@
     font-size: var(--sc-t-xs); margin-bottom: var(--sc-2);
   }
   .colophon__masthead dd { margin: 0; color: var(--sc-ink); }
-  .colophon__masthead a:hover { color: var(--sc-accent); }
+  .colophon__masthead a { color: var(--n-link); }
+  .colophon__masthead a:hover { color: var(--n-primary-pressed); }
   .colophon__fine {
     margin-top: var(--sc-8); font-family: var(--sc-font-text);
     font-size: var(--sc-t-xs); letter-spacing: var(--sc-track-wide);
@@ -289,6 +365,10 @@
         우리 팀을 소개하는 열두 장의 노트. 여섯 사람이 각자 무엇을 책임지고,
         어떤 약속 위에서 함께 일하는지를 적었습니다.
       </p>
+      <div class="titlepage__cta">
+        <a class="btn btn--primary" href="#chapter-3">담당자 보기<svg class="ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14m-7-7l7 7l-7 7"/></svg></a>
+        <a class="btn btn--on-dark" href="#chapter-4">업무 매뉴얼</a>
+      </div>
       <div class="titlepage__meta">
         <span><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M16 3.128a4 4 0 0 1 0 7.744M22 21v-2a4 4 0 0 0-3-3.87"/><circle cx="9" cy="7" r="4"/></g></svg><span><b>여섯</b> 명의 담당자</span></span>
         <span><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v16m8.001-2A2 2 0 0 0 22 17V5a2 2 0 0 0-1.999-2L16 3.002A5 5 0 0 0 12 5a5 5 0 0 0-4-2H4a2 2 0 0 0-2 2v12a2 2 0 0 0 1.999 2H8a5 5 0 0 1 4 2a5 5 0 0 1 4-2z"/></svg><span><b>네 개</b>의 업무 매뉴얼</span></span>
@@ -372,7 +452,7 @@
     </div>
   </section>
 
-  <section class="chapter page" data-folio="제3장 · 담당자" data-folio-n="03">
+  <section class="chapter page" id="chapter-3" data-folio="제3장 · 담당자" data-folio-n="03">
     <div class="intertitle">
       <p class="intertitle__no">제3장</p>
       <h2>여섯 사람, 여섯 개의 책임.</h2>
@@ -518,7 +598,7 @@
     </article>
   </section>
 
-  <section class="chapter page" data-folio="제4장 · 방식" data-folio-n="04">
+  <section class="chapter page" id="chapter-4" data-folio="제4장 · 방식" data-folio-n="04">
     <div class="intertitle">
       <p class="intertitle__no">제4장</p>
       <h2>함께 지키는 <em>네 가지</em> 방식.</h2>
@@ -526,6 +606,7 @@
     </div>
 
     <div class="method">
+      <div class="method__grid">
       <div class="method__item" data-sc-in data-sc-stagger="60">
         <div>
           <h3><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09"/><path d="M9 12a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.4 22.4 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 .05 5 .05"/></g></svg>신규 프로젝트 착수</h3>
@@ -576,6 +657,7 @@
           <li>부재 중 업무 인수인계를 공유합니다.</li>
           <li>승인이 완료되면 최종 확정됩니다.</li>
         </ol>
+      </div>
       </div>
     </div>
   </section>
